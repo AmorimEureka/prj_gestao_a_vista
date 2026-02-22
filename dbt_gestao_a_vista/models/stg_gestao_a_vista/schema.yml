@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: stg_atendime
+    description: Modelo de staging da tabela ATENDIME.
+    columns:
+      - name: cd_atendimento
+      - name: cd_paciente
+      - name: cd_convenio
+      - name: cd_leito
+      - name: dt_atendimento
+      - name: dt_alta
+      - name: hr_alta
+      - name: hr_atendimento
+      - name: tp_atendimento
+      - name: sn_obito
+
+  - name: stg_paciente
+    description: Modelo de staging da tabela PACIENTE.
+    columns:
+      - name: cd_paciente
+      - name: nm_paciente
+      - name: nm_mae
+      - name: dt_nascimento
+
+  - name: stg_usuarios
+    description: Modelo de staging da tabela USUARIOS.
+    columns:
+      - name: cd_usuario
+      - name: cd_matricula
+      - name: nm_usuario
+      - name: sn_ativo
+
+  - name: stg_unid_int
+    description: Modelo de staging da tabela UNID_INT.
+    columns:
+      - name: cd_unid_int
+      - name: ds_unid_int
+      - name: sn_ativo
+
+  - name: stg_leito
+    description: Modelo de staging da tabela LEITO.
+    columns:
+      - name: cd_leito
+      - name: cd_unid_int
+      - name: ds_leito
+      - name: tp_ocupacao
+      - name: tp_situacao
+
+  - name: stg_mot_alt
+    description: Modelo de staging da tabela MOT_ALT.
+    columns:
+      - name: cd_mot_alt
+      - name: ds_mot_alt
+      - name: tp_mot_alta
+      - name: sn_ativo

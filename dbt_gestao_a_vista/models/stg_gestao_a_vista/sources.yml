@@ -1,0 +1,67 @@
+version: 2
+
+sources:
+  - name: raw_gestao_a_vista
+    description: Tabelas extraídas da origem SQL configuradas via DLT.
+    schema: raw_gestao_a_vista
+    loaded_at_field: dt_extracao
+    tables:
+      - name: ATENDIME
+        identifier: atendime
+        description: Fonte bruta da tabela ATENDIME.
+        columns:
+          - name: CD_ATENDIMENTO
+          - name: CD_PACIENTE
+          - name: CD_CONVENIO
+          - name: CD_LEITO
+          - name: DT_ATENDIMENTO
+          - name: DT_ALTA
+          - name: HR_ALTA
+          - name: HR_ATENDIMENTO
+          - name: TP_ATENDIMENTO
+          - name: SN_OBITO
+
+      - name: PACIENTE
+        identifier: paciente
+        description: Fonte bruta da tabela PACIENTE.
+        columns:
+          - name: CD_PACIENTE
+          - name: NM_PACIENTE
+          - name: NM_MAE
+          - name: DT_NASCIMENTO
+
+      - name: USUARIOS
+        identifier: usuarios
+        description: Fonte bruta da tabela USUARIOS.
+        columns:
+          - name: CD_USUARIO
+          - name: CD_MATRICULA
+          - name: NM_USUARIO
+          - name: SN_ATIVO
+
+      - name: UNID_INT
+        identifier: unid_int
+        description: Fonte bruta da tabela UNID_INT.
+        columns:
+          - name: CD_UNID_INT
+          - name: DS_UNID_INT
+          - name: SN_ATIVO
+
+      - name: LEITO
+        identifier: leito
+        description: Fonte bruta da tabela LEITO.
+        columns:
+          - name: CD_LEITO
+          - name: CD_UNID_INT
+          - name: DS_LEITO
+          - name: TP_OCUPACAO
+          - name: TP_SITUACAO
+
+      - name: MOT_ALT
+        identifier: mot_alt
+        description: Fonte bruta da tabela MOT_ALT.
+        columns:
+          - name: CD_MOT_ALT
+          - name: DS_MOT_ALT
+          - name: TP_MOT_ALTA
+          - name: SN_ATIVO
