@@ -5,3 +5,4 @@ sql_database_pipeline.py
 query_MV.sql
 ocupacao_leito_pipeline.png
 secrets.toml
+dbt.log
