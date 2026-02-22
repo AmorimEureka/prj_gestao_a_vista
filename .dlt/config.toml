@@ -1,0 +1,140 @@
+# put your configuration values here
+
+[runtime]
+log_level="WARNING"  # the system log level of dlt
+# use the dlthub_telemetry setting to enable/disable anonymous usage data reporting, see https://dlthub.com/docs/reference/telemetry
+dlthub_telemetry = true
+
+[sources.sql_database]
+default_source_schema = "DBAMV"
+table_names = [
+    "ATENDIME",
+    "PACIENTE",
+    "USUARIOS",
+    "UNID_INT",
+    "LEITO",
+    "MOT_ALT",
+]
+
+
+[sources.sql_database.ATENDIME]
+included_columns = [
+    "CD_ATENDIMENTO",
+    "CD_PACIENTE",
+    "CD_CONVENIO",
+    "CD_LEITO",
+    "DT_ATENDIMENTO",
+    "DT_ALTA",
+    "HR_ALTA",
+    "HR_ATENDIMENTO",
+    "TP_ATENDIMENTO",
+    "SN_OBITO"
+]
+incremental_column="DT_ATENDIMENTO"
+primary_key="CD_ATENDIMENTO"
+initial_value="2025-01-01"
+write_disposition="merge"
+
+
+[sources.sql_database.PACIENTE]
+included_columns = [
+    "CD_PACIENTE",
+    "NM_PACIENTE",
+    "NM_MAE",
+    "DT_NASCIMENTO"
+]
+incremental_column="CD_PACIENTE"
+primary_key="CD_PACIENTE"
+initial_value=1
+write_disposition="merge"
+
+
+[sources.sql_database.USUARIOS]
+source_schema = "DBASGU"
+included_columns = [
+    "CD_USUARIO",
+    "CD_MATRICULA",
+    "NM_USUARIO",
+    "SN_ATIVO"
+]
+incremental_column="CD_USUARIO"
+primary_key="CD_USUARIO"
+initial_value=1
+write_disposition="merge"
+
+
+[sources.sql_database.UNID_INT]
+included_columns = [
+    "CD_UNID_INT",
+    "DS_UNID_INT",
+    "SN_ATIVO"
+
+]
+incremental_column="CD_UNID_INT"
+primary_key="CD_UNID_INT"
+initial_value=1
+write_disposition="merge"
+
+
+[sources.sql_database.LEITO]
+included_columns = [
+    "CD_LEITO",
+    "CD_UNID_INT",
+    "DS_LEITO",
+    "TP_OCUPACAO",
+    "TP_SITUACAO"
+]
+incremental_column="CD_LEITO"
+primary_key="CD_LEITO"
+initial_value=1
+write_disposition="merge"
+
+
+[sources.sql_database.MOT_ALT]
+included_columns = [
+    "CD_MOT_ALT",
+    "DS_MOT_ALT",
+    "TP_MOT_ALTA",
+    "SN_ATIVO"
+]
+incremental_column="CD_MOT_ALT"
+primary_key="CD_MOT_ALT"
+initial_value=1
+write_disposition="merge"
+
+
+[sources.publicacao_railway]
+source_schema = "mrt_gestao_a_vista"
+table_names = [
+    "mart_documento_por_janela_horario",
+    "dim_leito",
+    "dim_paciente",
+    "dim_unid_int",
+    "dim_usuarios",
+]
+
+[sources.publicacao_railway.mart_documento_por_janela_horario]
+source_schema = "mrt_gestao_a_vista"
+target_table = "app_mart_documento_por_janela_horario"
+primary_key = "documento_id"
+write_disposition = "merge"
+
+[sources.publicacao_railway.dim_leito]
+source_schema = "mrt_gestao_a_vista"
+target_table = "app_dim_leito"
+write_disposition = "replace"
+
+[sources.publicacao_railway.dim_paciente]
+source_schema = "mrt_gestao_a_vista"
+target_table = "app_dim_paciente"
+write_disposition = "replace"
+
+[sources.publicacao_railway.dim_unid_int]
+source_schema = "mrt_gestao_a_vista"
+target_table = "app_dim_unid_int"
+write_disposition = "replace"
+
+[sources.publicacao_railway.dim_usuarios]
+source_schema = "mrt_gestao_a_vista"
+target_table = "app_dim_usuarios"
+write_disposition = "replace"
