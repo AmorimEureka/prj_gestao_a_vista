@@ -1,0 +1,145 @@
+version: 2
+
+models:
+  - name: dim_leito
+    description: Dimensão de leitos com dados cadastrais e tipo de ocupação.
+    columns:
+      - name: cd_leito
+        description: Identificador do leito.
+        tests:
+          - not_null
+          - unique
+      - name: cd_unid_int
+        description: Identificador da unidade de internação associada ao leito.
+        tests:
+          - not_null
+      - name: ds_leito
+        description: Descrição do leito.
+        tests:
+          - not_null
+      - name: tp_ocupacao
+        description: Tipo de ocupação do leito.
+
+  - name: dim_paciente
+    description: Dimensão de pacientes com dados demográficos e idade calculada.
+    columns:
+      - name: cd_paciente
+        description: Identificador do paciente.
+        tests:
+          - not_null
+          - unique
+      - name: nm_paciente
+        description: Nome do paciente.
+        tests:
+          - not_null
+      - name: nm_mae
+        description: Nome da mãe do paciente.
+      - name: dt_nascimento
+        description: Data de nascimento do paciente.
+      - name: idade
+        description: Idade em anos completos calculada a partir da data de nascimento.
+
+  - name: dim_unid_int
+    description: Dimensão de unidades de internação.
+    columns:
+      - name: cd_unid_int
+        description: Identificador da unidade de internação.
+        tests:
+          - not_null
+          - unique
+      - name: ds_unid_int
+        description: Descrição da unidade de internação.
+        tests:
+          - not_null
+
+  - name: dim_usuarios
+    description: Dimensão de profissionais de enfermagem e técnicos filtrada por prefixo de usuário (EN/TE).
+    columns:
+      - name: cd_usuario
+        description: Identificador do usuário.
+        tests:
+          - not_null
+          - unique
+      - name: cd_matricula
+        description: Matrícula do usuário.
+      - name: nm_usuario
+        description: Nome do usuário.
+        tests:
+          - not_null
+
+  - name: dim_janela_turno
+    description: Dimensão operacional de janelas de turno (MT e SN) por data de referência.
+    columns:
+      - name: data_referencia
+        description: Data de referência da janela.
+        tests:
+          - not_null
+      - name: turno
+        description: Código do turno (MT ou SN).
+        tests:
+          - not_null
+      - name: dt_inicio
+        description: Data/hora de início da janela do turno.
+        tests:
+          - not_null
+      - name: dt_fim
+        description: Data/hora de fim da janela do turno.
+        tests:
+          - not_null
+
+  - name: mart_documento_por_janela_horario
+    description: Fato operacional de documentos rastreáveis por data, turno, unidade, leito, paciente e atendimento para integração com a aplicação.
+    columns:
+      - name: documento_id
+        description: Identificador único do documento por evento dentro da chave base da janela/unidade/leito.
+        tests:
+          - not_null
+          - unique
+      - name: data_referencia
+        description: Data de referência da geração do documento.
+        tests:
+          - not_null
+      - name: turno
+        description: Turno da janela (MT ou SN).
+        tests:
+          - not_null
+      - name: unidade_id
+        description: Identificador da unidade do leito.
+        tests:
+          - not_null
+      - name: leito_id
+        description: Identificador do leito dentro da unidade.
+        tests:
+          - not_null
+      - name: paciente_id
+        description: Identificador do paciente vigente no momento do evento.
+        tests:
+          - not_null
+      - name: atendimento_id
+        description: Identificador do atendimento vigente no momento do evento.
+        tests:
+          - not_null
+      - name: enfermeiro_matricula
+        description: Matrícula do enfermeiro responsável (quando atribuída).
+      - name: status_documento
+        description: Situação enviada pelo pipeline; nesta camada o valor é sempre ABERTO e o ciclo de vida é gerido na aplicação.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['ABERTO']
+      - name: dt_inicio
+        description: Data/hora de início da janela.
+        tests:
+          - not_null
+      - name: dt_fim
+        description: Data/hora de fim da janela.
+        tests:
+          - not_null
+      - name: dt_geracao_documento
+        description: Data/hora do evento que gerou a linha do documento.
+        tests:
+          - not_null
+      - name: seq_documento
+        description: Sequência do documento dentro da chave base da janela.
+        tests:
+          - not_null
